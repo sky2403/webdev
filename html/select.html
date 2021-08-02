@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <style>
+      #screen {
+         width: 300px;
+         height: 200px;
+         text-align: center;
+         user-select: none;
+
+      }
+
+      #screen.ready {
+         background-color: red;
+         color: white;
+
+      }
+
+      #screen.waiting {
+         background-color: aqua;
+      }
+
+      #screen.now {
+         background-color: greenyellow;
+      }
+   </style>
+</head>
+
+
+<body>
+   <div id="screen" class="waiting">클릭해서 시작하세요</div>
+   <div id="result"></div>
+   
+   <script>
+      const $screen = document.querySelector('#screen');
+      const $result = document.querySelector('#result');
+
+
+
+      let starttime;
+      let endtime;
+      
+      $screen.addEventListener('click', (event) => {
+         
+         if (event.target.classList.contains('waiting')) {
+            
+            let $ready = $screen.classList.add('ready');
+            $screen.textContent = '초록색이 되면 클릭하세요';
+
+            $screen.classList.replace('waiting', 'ready');
+            setTimeout(function () {//초록색화면(now) 나타내기
+               starttime = new Date();//let은 블록스코프이기 때문에  미리선언해줌.
+               $screen.classList.remove('ready');
+               $screen.classList.add('now');
+               $screen.textContent = '클릭하세요!';
+
+            }, Math.floor(Math.random() * 1000) + 2000);
+
+         } else if (event.target.classList.contains('ready')) {//빨강
+
+         } else if (event.target.classList.contains('now')) {//타이머 끝
+            endtime = new Date();
+            $result.textContent = `${endtime-starttime}ms`;
+            $screen.classList.remove('now');
+            $screen.classList.add('waiting');
+            $screen.textContent = '클릭해서 시작하세요.'
+
+         }
+      })
+
+
+   </script>
+
+
+</body>
+
+</html>
